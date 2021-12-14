@@ -3,7 +3,7 @@
 {% load permissionif %}
 {% load gpa_scale_emoji %}
 {% block content %}
-    <div class="jumbotron">
+    <div class="p-5 mb-4 bg-light rounded-3">
         <div class="clearfix">
             <h1>
                 {% if event.glyphicon %}
@@ -12,7 +12,7 @@
                 {{ event }}
             </h1>
         </div>
-        <div class="actions pull-right">
+        <div class="actions float-end">
             <h3>Status: <b>{{ event.status }}</b></h3>
 
             <div class="btn-group">
@@ -163,22 +163,22 @@
 
     <div class="container-fluid">
         <div class="col-md-12">
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="#home" data-toggle="tab">Detail</a></li>
-                <li><a href="#schedule" data-toggle="tab">Schedule</a></li>
-                <li><a href="#services" data-toggle="tab">Services</a></li>
-                <li><a href="#crew" data-toggle="tab">Crew</a></li>
+            <ul class="nav nav-tabs" role="tablist" id="main-tabs">
+                <li class="nav-item active" role="presentation"><a href="#home" class="nav-link active" data-toggle="tab">Detail</a></li>
+                <li class="nav-item" role="presentation"><a href="#schedule" class="nav-link" data-toggle="tab">Schedule</a></li>
+                <li class="nav-item" role="presentation"><a href="#services" class="nav-link" data-toggle="tab">Services</a></li>
+                <li class="nav-item" role="presentation"><a href="#crew" class="nav-link" data-toggle="tab">Crew</a></li>
                 {% permission request.user has 'events.view_event_reports' of event %}
-                    <li><a href="#reports" data-toggle="tab">Reports</a></li>
+                    <li class="nav-item" role="presentation"><a href="#reports" class="nav-link" data-toggle="tab">Reports</a></li>
                 {% endpermission %}
                 {% permission request.user has 'events.view_event_billing' of event %}
-                    <li><a href="#billing" data-toggle="tab">Billing</a></li>
+                    <li class="nav-item" role="presentation"><a href="#billing" class="nav-link" data-toggle="tab">Billing</a></li>
                 {% endpermission %}
-                <li><a href="#files" data-toggle="tab">Files</a></li>
+                <li class="nav-item" role="presentation"><a href="#files" class="nav-link" data-toggle="tab">Files</a></li>
                 {% permission request.user has 'events.view_posteventsurveyresults' of event.surveys.first %}
-                    <li><a href="#survey" data-toggle="tab">Survey</a></li>
+                    <li class="nav-item" role="presentation"><a href="#survey" class="nav-link" data-toggle="tab">Survey</a></li>
                 {% endpermission %}
-                <li><a href="#history" data-toggle="tab">History</a></li>
+                <li class="nav-item" role="presentation"><a href="#history" class="nav-link" data-toggle="tab">History</a></li>
             </ul>
 
             <div class="tab-content">
@@ -358,7 +358,7 @@
                 <div id="services" class="tab-pane">
                     {% if not event.closed %}
                         {% permission request.user has 'events.adjust_event_charges' of event %}
-                            <div class="pull-right">
+                            <div class="float-end">
                                 <a class="btn btn-lg btn-info" href="{% url "events:extras" event.id %}">Modify Extras</a>
                             </div>
                         {% endpermission %}
@@ -470,7 +470,7 @@
                 <div id="crew" class="tab-pane">
                     {% if not event.closed %}
                         {% permission request.user has 'events.edit_event_hours' of event %}
-                            <a class="btn btn-lg btn-info pull-right" href="{% url "events:chiefs" event.id %}">Modify</a>
+                            <a class="btn btn-lg btn-info float-end" href="{% url "events:chiefs" event.id %}">Modify</a>
                         {% endpermission %}
                     {% endif %}
                     <h2> Crew Chief(s) </h2>
@@ -502,7 +502,7 @@
                     <h3 class="h5">Current Crew Count: {{ crew_count }}</h3>
                     {% endif %}
                     {% comment %}
-                    <a class="btn btn-lg btn-info pull-right" href="{% url "events:add-crew" event.id %}">Modify</a>
+                    <a class="btn btn-lg btn-info float-end" href="{% url "events:add-crew" event.id %}">Modify</a>
                     <h2> Crew </h2>
                     <ul>
                         {% for c in event.crew.all %}
@@ -516,7 +516,7 @@
                 <div id="reports" class="tab-pane">
                     {% if not event.closed %}
                         {% permission request.user has 'events.add_event_report' of event %}
-                            <div class="pull-right">
+                            <div class="float-end">
                                 <a class="btn btn-primary btn-lg" href="{% url "events:reports:new" event.id%}">New</a>
                             </div>
                         {% endpermission %}
@@ -524,7 +524,7 @@
                     <h2>Reports</h2>
                     {% for report in event.ccreport_set.all %}
                         <h4>Report by {{report.crew_chief }}</h4> 
-                        <em class="text-muted pull-right">
+                        <em class="text-muted float-end">
                             Posted on {{ report.created_on }} <br />
                             {% if report.created_on != report.updated_on %}
                                 Last Updated: {{ report.updated_on }}
@@ -563,7 +563,7 @@
                     {% endif %}
                     {% if not event.closed %}
                         {% permission request.user has 'events.edit_event_hours' of event %}
-                            <div class="pull-right">
+                            <div class="float-end">
                                 <a class="btn btn-primary btn-lg" href="{% url 'events:add-bulk-crew' event.id %}">Edit</a>
                             </div>
                         {% endpermission %}
@@ -598,7 +598,7 @@
                 <div id="billing" class="tab-pane">
                     {% if not event.closed %}
                         {% permission request.user has 'events.adjust_event_charges' of event %}
-                            <div class="pull-right btn-group">
+                            <div class="float-end btn-group">
                                 <a class="btn btn-lg btn-primary" href="{% url "events:extras" event.id %}">Modify Extras</a>
                                 <a class="btn btn-lg btn-info" href="{% url "events:oneoffs" event.id %}">Add OneOff
                                     Charges</a>
@@ -830,7 +830,7 @@
                 <div id="files" class="tab-pane">
                     {% if not event.closed %}
                         {% permission request.user has 'events.event_attachments' of event %}
-                            <div class="pull-right">
+                            <div class="float-end">
                                 <a class="btn btn-warning" href="{% url "events:files" event.id %}">Edit</a>
                             </div>
                         {% endpermission %}
