@@ -324,8 +324,9 @@ INSTALLED_APPS = (
     'rt',
     'slack',
 
-    'bootstrap3',
+    'django_bootstrap5',
     'crispy_forms',
+    'crispy_bootstrap5',
     'formtools',
     'semanticuiforms',
     'lineage',
@@ -499,7 +500,9 @@ CAS_FORCE_POST_LOGIN = False
 AIRPLANE_MODE = True
 
 # crispy_forms
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 SYNC_STUDENT_ID = env.bool("STUDENT_AUTO_ID", False)
 

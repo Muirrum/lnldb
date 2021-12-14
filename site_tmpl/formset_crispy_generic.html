@@ -33,19 +33,19 @@
         <tbody>
             {% for form in formset %}
                 {% if form_show_errors and not form.is_extra %}
-                    {% include "bootstrap3/errors.html" %}
+                    {% include "crispy_bootstrap5/templates/errors.html" %}
                 {% endif %}
 
                 <tr>
                     {% for field in form %}
-                        {% include 'bootstrap3/field.html' with tag="td" form_show_labels=False %}
+                        {% include 'crispy_bootstrap5/templates/field.html' with tag="td" form_show_labels=False %}
                     {% endfor %}
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    {% include "bootstrap3/inputs.html" %}
+    {% include "crispy_bootstrap5/templates/inputs.html" %}
 
 {% if formset_tag %}</form>{% endif %}
 {% endspecialspaceless %}
