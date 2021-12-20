@@ -3,12 +3,14 @@
     max-height: none;
 }
 
+
 /*.sidebar-nav {
     padding: 9px 0;
 }
 .dropdown-backdrop {
     position: static;
 }*/
+
 ul.ui-autocomplete {
     max-height: 30%;
     overflow-y: auto;
@@ -20,17 +22,17 @@ ul.ui-autocomplete {
 }
 
 [data-event-class="cal-status-cancelled"] {
-	text-decoration: line-through;
+    text-decoration: line-through;
 }
 
 #cal-slide-content .cal-status-cancelled,
 .events-list .cal-status-cancelled {
-	background-color: yellow;
+    background-color: yellow;
 }
 
 #cal-slide-content .cal-status-awaiting-approval,
 .events-list .cal-status-awaiting-approval {
-	background-color: blue;
+    background-color: blue;
 }
 
 .flexfix {
@@ -50,7 +52,15 @@ ul.ui-autocomplete {
     text-align: center;
 }
 
+.navbar>.container-fluid {
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+
 /* make side-scrolling not ruin the navbar on mobile */
+
 .content {
     overflow-x: auto;
     min-height: calc(100vh - 70px);
@@ -84,15 +94,29 @@ ul.ui-autocomplete {
     background-color: white;
 }
 
-.navbar-inverse .navbar-nav > .active > a {
+.navbar-inverse .navbar-nav>.active>a {
     color: #EEE;
 }
 
-.navbar-inverse .navbar-nav > li > a,
-.navbar-inverse .navbar-nav > li > a:hover,
-.navbar-inverse .navbar-nav > li > a:focus,
-.navbar-inverse .navbar-brand {
-    color: #FFE303;
+.navbar-inverse .navbar-nav>li>a,
+.navbar-inverse .navbar-nav>li>a:hover,
+.navbar-inverse .navbar-nav>li>a:focus,
+.navbar-inverse .navbar-brand,
+.navbar-link:hover,
+li.dropdown {
+    color: #FFE303 !important;
+    transition: color 0.15s ease-in-out 0s, background-color 0.15s ease-in-out 0s, border-color 0.15s ease-in-out 0s;
+}
+
+.navbar-inverse .navbar-nav>li>a,
+.navbar-inverse .navbar-nav>li>a:hover,
+.navbar-inverse .navbar-nav>li>a:focus {
+    align-items: center;
+    margin-right: 0.75rem !important;
+}
+
+.navbar-brand {
+    margin-right: 1rem;
 }
 
 ul.nav ul.dropdown-menu li a,
@@ -100,8 +124,27 @@ ul.nav ul.dropdown-menu li a,
     color: #111;
 }
 
+li.dropdown {
+    padding: 0.32rem 0;
+}
+
+#navbar-login {
+    padding: 0.8rem;
+}
+
+li.dropdown:hover,
+#navbar-login:hover {
+    background-color: black;
+}
+
+.navbar-inverse .navbar-text {
+    color: #9d9d9d;
+}
+
+
 /* Search */
-.search-results > li {
+
+.search-results>li {
     display: block;
 }
 
@@ -143,11 +186,11 @@ span.result-subtitle {
     margin: 0;
 }
 
-@media print { 
+@media print {
     h2:first-of-type:before {
         content: "LNLDB: ";
     }
-    a[href]:after { 
+    a[href]:after {
         content: none;
     }
     a[href] {
@@ -159,7 +202,9 @@ span.result-subtitle {
     display: inline-block;
 }
 
+
 /* Fix ugly permissions debugging notification */
+
 #hijacked-warning {
     height: 35px;
     position: static;
@@ -167,6 +212,17 @@ span.result-subtitle {
 
 footer {
     margin-top: 2em;
+}
+
+.jumbotron {
+    padding: 30px 15px;
+    margin-bottom: 30px;
+    color: inherit;
+    background-color: #eee;
+}
+
+.jumbotron>div>h1 {
+    font-size: 4rem;
 }
 
 .jumbotron .actions {
@@ -185,19 +241,22 @@ footer {
 }
 
 .jumbotron-delinquent-org {
-	background-color: #eeb4b4;
+    background-color: #eeb4b4;
 }
 
 input[type="file"] {
     height: auto;
 }
 
+
 /* Markdown Widget */
+
 @media all {
     .wmd-button-row {
         overflow: hidden;
     }
 }
+
 .wmd-input {
     background-color: white !important;
 }
@@ -214,8 +273,11 @@ nav.page-nav {
     text-align: center;
 }
 
+
 /* Inventory */
-ul.category-tree, .category-tree ul {
+
+ul.category-tree,
+.category-tree ul {
     padding-left: 15px;
 }
 
@@ -237,13 +299,13 @@ ul.category-tree, .category-tree ul {
     margin-left: -35px;
 }
 
-.table > tbody > tr > th.checkbox {
+.table>tbody>tr>th.checkbox {
     border: none;
     padding: 0;
     padding-left: 20px;
 }
 
-.controls > input.checkboxinput[type=checkbox] {
+.controls>input.checkboxinput[type=checkbox] {
     margin-left: 4px;
 }
 
@@ -255,18 +317,24 @@ h3 {
     margin-top: -15px;
 }
 
+
 /* highlights row when linked to, regardless of striping */
-tr:target, .table-striped>tbody>tr:nth-of-type(odd):target {
-	background-color: darkgrey;
+
+tr:target,
+.table-striped>tbody>tr:nth-of-type(odd):target {
+    background-color: darkgrey;
 }
 
 td.checkbox {
-    display: table-cell; /* i don't know why it thought a cell WASNT a cell... */
+    display: table-cell;
+    /* i don't know why it thought a cell WASNT a cell... */
 }
+
 
 /* Bootstrap calls it alert-danger, but django messages calls it alert-error.
    bootstrap-admin.css defines both, but most pages don't use that file, they use bootstrap.min.css
    There is probably a better way to fix this than pasting the block here */
+
 .alert-error {
     color: #b94a48;
     background-color: #f2dede;
