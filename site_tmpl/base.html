@@ -16,16 +16,14 @@
         <meta name="author" content="">
 
         {% if AIRPLANE_MODE %}
-            <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-            <link rel="stylesheet" href="{% static 'css/bootstrap-theme.css' %}">
+            <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
             <script src="{% static 'js/jquery.js' %}"></script>
             <script src="{% static 'js/jquery-ui.js' %}"></script>
             <script src="{% static 'js/bootstrap.js' %}"></script>
             <script src="{% static 'js/Chart.bundle.min.js' %}"></script>
         {% else %}
             <link href="//maxcdn.bootstrapcdn.com/bootstrap/5.0.2/css/bootstrap.min.css" rel="stylesheet">
-            <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/5.0.2/css/bootstrap-theme.min.css">
-            <script src="//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script src="//code.jquery.com/jquery-3.6.0.js"></script>
             <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.13.0/jquery-ui.min.js"></script>
             <script src="//maxcdn.bootstrapcdn.com/bootstrap/5.0.2/js/bootstrap.min.js"></script>
             <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js"></script>
@@ -34,7 +32,7 @@
         <link href="{% static 'css/jquery-ui.css' %}" rel="stylesheet">
         <!--         <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet"> -->
 
-        <script src="{% static 'js/flexmenu.min.js' %}"></script>
+        <!-- <script src="{% static 'js/flexmenu.min.js' %}"></script>-->
         <link href='{% static 'ajax_select/css/ajax_select.css' %}' rel="stylesheet" type="text/css">
         <script src="{% static 'ajax_select/js/ajax_select.js' %}"></script>
 
@@ -59,12 +57,12 @@
                 });
 
                 // Collapse main navbar if too big
-					 function autoresize_nav (media_query) {
-								$("div.collapse ul.navbar-nav").flexMenu({'undo': !media_query.matches});
+				/*	 function autoresize_nav (media_query) {
+								$("div.collapse ul.navbar-nav").flexMenu(); //{'undo': !media_query.matches}
 					 }
 				    var mq = window.matchMedia('only screen and (min-width : 768px)'); // same as bootstrap sm
-					 mq.addListener(autoresize_nav);
-					 autoresize_nav(mq);
+					 mq.addEventListener("change", () => autoresize_nav(mq));
+					 autoresize_nav(mq);*/
 
                 /*
                  Save tabs across reloads
