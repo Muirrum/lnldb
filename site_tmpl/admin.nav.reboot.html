@@ -5,8 +5,8 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#top-navbar-collapse-section" aria-controls="top-navbar-collapse-section" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse ms-3 ms-lg-0" id="top-navbar-collapse-section">
-        <ul class="navbar-nav me-auto">
+      <div class="collapse navbar-collapse ms-3 ms-md-0" id="top-navbar-collapse-section">
+        <ul class="navbar-nav flex-wrap me-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" href="#">Events <b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -125,7 +125,7 @@
             {% endpermission %} {% permission request.user has 'projection.view_pits' or request.user has 'projection.add_bulk_events' %}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">Projection <b class="caret"></b></a>
-                <ul class="dropdown-menu me-auto">
+                <ul class="dropdown-menu">
                     {% permission request.user has 'projection.view_pits' %}
                     <li><a class="dropdown-item" href="{% url "projection:grid" %}">View Projectionists</a></li>
                     {% endpermission %} {% permission request.user has 'projection.view_pits' %}
@@ -140,13 +140,13 @@
             </li>{% endpermission %} {% permission request.user has 'data.search' %}
             <li class="nav-item">
             <form class="navbar-form d-flex" action="{% url "events-search" %}" method="GET" role="search">
-              <input class="form-control me-2" type="text" name="q" placeholder="Search Events" aria-label="Search"  {% if q %} value="{{ q }}" {% endif %}>
+              <input class="form-control me-2" style="min-width:8.2rem;" type="text" name="q" placeholder="Search Events" aria-label="Search"  {% if q %} value="{{ q }}" {% endif %}>
               <button class="btn btn-outline-secondary" type="submit">Search</button>
             </form> </li>
             {% endpermission %}
         </ul>
         {% permission request.user has 'data.search' %}
-        <div class="d-flex navbar-text mb-2 mb-lg-0"><div>
+        <div class="d-flex navbar-text mb-2 mb-md-0"><div>
             {% if request.user.pk %} Logged in as <a href="{% url  "accounts:detail" request.user.pk %}" class="navbar-link">{{ request.user }}</a> &middot;
                 <a class="navbar-link" href="{% url "accounts:logout" %}">Log Out</a> {% else %}
                 <a class="navbar-link" href="{% url "accounts:login" %}">Log In</a> {% endif %}

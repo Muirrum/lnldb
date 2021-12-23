@@ -31,8 +31,7 @@
 
         <link href="{% static 'css/jquery-ui.css' %}" rel="stylesheet">
         <!--         <link href="{% static 'css/bootstrap-responsive.css' %}" rel="stylesheet"> -->
-
-        <!-- <script src="{% static 'js/flexmenu.min.js' %}"></script>-->
+        <script src="{% static 'js/flexmenu.min.js' %}"></script>
         <link href='{% static 'ajax_select/css/ajax_select.css' %}' rel="stylesheet" type="text/css">
         <script src="{% static 'ajax_select/js/ajax_select.js' %}"></script>
 
@@ -57,12 +56,14 @@
                 });
 
                 // Collapse main navbar if too big
-				/*	 function autoresize_nav (media_query) {
-								$("div.collapse ul.navbar-nav").flexMenu(); //{'undo': !media_query.matches}
-					 }
-				    var mq = window.matchMedia('only screen and (min-width : 768px)'); // same as bootstrap sm
-					 mq.addEventListener("change", () => autoresize_nav(mq));
-					 autoresize_nav(mq);*/
+
+				function autoresize_nav (media_query) {
+					$("div.collapse ul.navbar-nav").flexMenu({'undo': !media_query.matches});
+				}
+                
+				var mq = window.matchMedia('only screen and (min-width : 768px)'); // same as bootstrap sm
+				mq.addEventListener("change", () => autoresize_nav(mq));
+				autoresize_nav(mq);
 
                 /*
                  Save tabs across reloads
