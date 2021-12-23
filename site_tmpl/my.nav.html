@@ -1,26 +1,16 @@
-<div class="navbar navbar-inverse navbar-static-top" role="navigation">
+<nav class="navbar navbar-expand-md sticky-md-top navbar-dark bg-dark mb-3">
     <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#lnl-nav-collapse">
-                <span class="visually-hidden">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">WPI Lens and Lights</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#top-navbar-collapse-section" aria-controls="top-navbar-collapse-section" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse ms-3 ms-md-0" id="top-navbar-collapse-section">
+            <a class="nav-item navbar-brand me-auto" href="/">WPI Lens and Lights</a>
+            <div class="d-flex navbar-text mb-2 mb-md-0"><div>
+                {% if request.user.pk %} Logged in as <a href="{% url  "accounts:detail" request.user.pk %}" class="navbar-link">{{ request.user }}</a> &middot;
+                    <a class="navbar-link" href="{% url "accounts:logout" %}">Log Out</a> {% else %}
+                    <a class="navbar-link" href="{% url "accounts:login" %}">Log In</a> {% endif %}
+            </div></div>
+            <div class="navbar-end" />
         </div>
-    
-        <div class="collapse navbar-collapse" id="lnl-nav-collapse">
-            
-            <p class="navbar-text navbar-right">
-            {% if user.is_authenticated %}
-                Logged in as <a href="#" class="navbar-link">{{ user }}</a> &middot;
-                <a href="{% url "accounts:logout" %}">Log Out</a>
-            {% else %}
-                <a href="{% url "accounts:login" %}"> Log In </a>
-            {% endif %}
-            </p>
-        </div>
-
     </div>
-</div>
+</nav>
