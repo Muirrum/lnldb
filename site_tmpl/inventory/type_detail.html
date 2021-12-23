@@ -14,7 +14,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                         <h3 id="addItemModalLabel">Confirm Add Item</h3>
                     </div>
                     <form action="{% url 'inventory:bulk_add' equipment.pk %}" method="post">
@@ -27,7 +27,7 @@
                             </label>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Go Back</button>
+                            <button class="btn btn-default" data-bs-dismiss="modal" aria-hidden="true">Go Back</button>
                             <button type="submit" class="btn btn-primary">Add Items</button>
                         </div>
                     </form>
@@ -42,7 +42,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                         <h3 id="rmItemModalLabel">Confirm Remove Type</h3>
                     </div>
                     <form action="{% url 'inventory:type_rm' equipment.pk %}" method="post">
@@ -52,7 +52,7 @@
                             <p>There are no items here, but any metadata will be gone FOREVER.</p>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Go Back</button>
+                            <button class="btn btn-default" data-bs-dismiss="modal" aria-hidden="true">Go Back</button>
                             <button type="submit" class="btn btn-danger">Yes, delete</button>
                         </div>
                     </form>

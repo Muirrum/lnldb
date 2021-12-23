@@ -89,14 +89,14 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                     <h3 id="closeModalLabel">Confirm Close Event</h3>
                 </div>
                 <div class="modal-body">
                     <p>Closing will lock the event for edits, and cannot be easily undone.</p>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Go Back</button>
+                    <button class="btn btn-default" data-bs-dismiss="modal" aria-hidden="true">Go Back</button>
                     <form class="form-inline" action="{% url 'events:close' event.id %}" method="post">
                         {% csrf_token %}
                         <button class="btn btn-primary" type="submit">Close Event</button>
@@ -114,7 +114,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                     <h3 id="cancelModalLabel">Confirm Cancel Event</h3>
                 </div>
                 <div class="modal-body">
@@ -123,7 +123,7 @@
                         setups/rentals were done.</p>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Go Back</button>
+                    <button class="btn btn-default" data-bs-dismiss="modal" aria-hidden="true">Go Back</button>
                     <form class="form-inline" action="{% url 'events:cancel' event.id %}" method="post">
                         {% csrf_token %}
                         <button class="btn btn-primary" type="submit">Cancel Event</button>
@@ -141,7 +141,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true">×</button>
                     <h3 id="reopenModalLabel">Confirm Reopen Event</h3>
                 </div>
                 <div class="modal-body">
@@ -149,7 +149,7 @@
                         of the event being closed to begin with.</p>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Go Back</button>
+                    <button class="btn btn-default" data-bs-dismiss="modal" aria-hidden="true">Go Back</button>
                     <form class="form-inline" action="{% url 'events:reopen' event.id %}" method="post">
                         {% csrf_token %}
                         <button class="btn btn-primary" type="submit">Reopen Event</button>
