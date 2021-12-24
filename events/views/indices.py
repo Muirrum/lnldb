@@ -12,6 +12,7 @@ from django.utils import timezone
 from events.charts import SurveyVpChart, SurveyCrewChart, SurveyPricelistChart, SurveyLnlChart
 from events.models import BaseEvent, Workshop, CrewAttendanceRecord
 from helpers.challenges import is_officer
+from meetings.models import Meeting
 from pages.models import OnboardingScreen, OnboardingRecord
 
 
@@ -73,6 +74,8 @@ def admin(request, msg=None):
     context['events'] = events
 
     context['tznow'] = now
+
+    context['meetings'] = Meeting.objects.filter(datetime__gte=now, datetime__lte=now+datetime.timedelta(days=14)).order_by('datetime')[:1]
 
     # get ongoing events for self-crew feature
     selfcrew_events = BaseEvent.objects.filter(
