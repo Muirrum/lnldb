@@ -105,7 +105,7 @@ html_theme_options = {'style_nav_header_background': 'black', 'analytics_id': 'G
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-html_css_files = ['css/custom.css', 'https://use.fontawesome.com/releases/v5.6.3/css/all.css']
+html_css_files = ['css/custom.css', 'https://use.fontawesome.com/releases/v5.15.4/css/all.css']
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
