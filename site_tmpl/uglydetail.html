@@ -167,9 +167,10 @@
                 <li class="nav-item active" role="presentation"><a href="#home" class="nav-link active" data-toggle="tab">Detail</a></li>
                 <li class="nav-item" role="presentation"><a href="#schedule" class="nav-link" data-toggle="tab">Schedule</a></li>
                 <li class="nav-item" role="presentation"><a href="#services" class="nav-link" data-toggle="tab">Services</a></li>
-                <li class="nav-item" role="presentation"><a href="#crew" class="nav-link" data-toggle="tab">Crew</a></li>
+                <li class="nav-item" role="presentation"><a href="#crew" class="nav-link" data-toggle="tab">Crew Chief(s)</a></li>
                 {% permission request.user has 'events.view_event_reports' of event %}
                     <li class="nav-item" role="presentation"><a href="#reports" class="nav-link" data-toggle="tab">Reports</a></li>
+                    <li class="nav-item" role="presentation"><a href="#hours" class="nav-link" data-toggle="tab">Hours</a></li>
                 {% endpermission %}
                 {% permission request.user has 'events.view_event_billing' of event %}
                     <li class="nav-item" role="presentation"><a href="#billing" class="nav-link" data-toggle="tab">Billing</a></li>
@@ -353,6 +354,26 @@
                             <th>End</th>
                             <td>{{event.datetime_end}}</td>
                         </tr>
+                        {% if event.max_crew %}
+                            <tr>
+                                <th>Maximum Crew Limit</th>
+                                <td>{{ event.max_crew }}</td>
+                            </tr>
+                            <tr>
+                                <th>Current Crew Count</th>
+                                <td>{{ event.crew_count }}</td>
+                            </tr>
+                        {% endif %}
+                        {% comment %}
+                        <hr>
+                        <a class="btn btn-lg btn-info float-end" href="{% url "events:add-crew" event.id %}">Modify</a>
+                        <h2> Crew </h2>
+                        <ul>
+                            {% for c in event.crew.all %}
+                            <li><a href="{% url "memberdetail" c.id %}">{{ c }}</a></li>
+                            {% endfor %}
+                        </ul>
+                        {% endcomment %}
                     </table>
                 </div>
                 <div id="services" class="tab-pane">
@@ -497,20 +518,6 @@
                             </td>
                         {% endfor %}
                     </table>
-                    {% if event.max_crew %}
-                    <h3 class="h5">Maximum Crew Limit: {{ event.max_crew }}</h3>
-                    <h3 class="h5">Current Crew Count: {{ crew_count }}</h3>
-                    {% endif %}
-                    {% comment %}
-                    <a class="btn btn-lg btn-info float-end" href="{% url "events:add-crew" event.id %}">Modify</a>
-                    <h2> Crew </h2>
-                    <ul>
-                        {% for c in event.crew.all %}
-                        <li><a href="{% url "memberdetail" c.id %}">{{ c }}</a></li>
-                        {% endfor %}
-                    </ul>
-                    {% endcomment %}
-                    
                 </div>
                 {% permission request.user has 'events.view_event_reports' of event %}
                 <div id="reports" class="tab-pane">
@@ -550,7 +557,7 @@
                     {% if event.crew_needing_reports %}
                         <h4> Crew Chiefs Needing Reports </h4>
                         {% permission request.user has 'events.review_event' %}
-                        <a class="btn btn-info btn-default btn-xs" href="{% url 'events:remindall' id=event.id %}">Remind All</a>
+                        <a class="btn btn-info btn-default btn-sm" href="{% url 'events:remindall' id=event.id %}">Remind All</a>
                         <br><br>
                         {% endpermission %}
                         <ul>
@@ -561,6 +568,8 @@
                         {% endfor %}
                         </ul>
                     {% endif %}
+                    </div>
+                <div id="hours" class="tab-pane">
                     {% if not event.closed %}
                         {% permission request.user has 'events.edit_event_hours' of event %}
                             <div class="float-end">
@@ -569,6 +578,7 @@
                         {% endpermission %}
                     {% endif %}
                     <h2> Hours </h2>
+
                     <table class="table">
                         <thead>
                         <tr>
@@ -577,6 +587,7 @@
                             <th>Category</th>
                         </tr>
                         </thead>
+                        {% if event.hours.all %}
                         {% for hour in event.hours.all %}
                             <tr>
                                 <td><a href="{% url "accounts:detail" hour.user.id %}">{{ hour.user.get_full_name }}</a>
@@ -591,6 +602,9 @@
                                 <td>{{ hour.category }}</td>
                             </tr>
                         {% endfor %}
+                        {% else %}
+                        <tr><td colspan="3">(No crew have submitted hours)</td></tr>
+                        {% endif %}
                     </table>
                 </div>
                 {% endpermission %}
@@ -831,7 +845,7 @@
                     {% if not event.closed %}
                         {% permission request.user has 'events.event_attachments' of event %}
                             <div class="float-end">
-                                <a class="btn btn-warning" href="{% url "events:files" event.id %}">Edit</a>
+                                <a class="btn btn-warning" href="{% url "events:files" event.id %}">Add/Edit</a>
                             </div>
                         {% endpermission %}
                     {% endif %}
