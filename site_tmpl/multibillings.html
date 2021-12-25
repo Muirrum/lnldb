@@ -25,12 +25,12 @@
                         {% if field.sortable %}
                         <div class="btn-group flexfix" role="group"
                              aria-label="{{ field.verbose_name | title }} Sorts">
-                            <a role="button" class="btn btn-default btn-xs"
+                            <a role="button" class="btn btn-default btn-sm"
                                href="?sort={{ field.name }}"
                                aria-label="Sort {{ field.verbose_name | title }} Ascending">
                                 <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
                             </a>
-                            <a role="button" class="btn btn-default btn-xs"
+                            <a role="button" class="btn btn-default btn-sm"
                                href="?sort=-{{ field.name }}"
                                aria-label="Sort {{ field.verbose_name | title }} Descending">
                                 <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>

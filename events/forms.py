@@ -2192,7 +2192,7 @@ going to your LNL account and selecting "Previous Workorders".
 #                 # Field('setup_start',css_class="dtp"),
 #                 Div(
 #                     HTML(
-#                         '<div class="pull-left"><a class="btn btn-xs btn-primary" href="#" id="samedate">'
+#                         '<div class="pull-left"><a class="btn btn-sm btn-primary" href="#" id="samedate">'
 #                         '<i class="glyphicon glyphicon-arrow-down icon-white"></i>&nbsp;'
 #                         '<i class="glyphicon glyphicon-calendar icon-white" title="Cascade"></i></a></div>'),
 #                     Field('setup_complete', css_class="dtp"),
