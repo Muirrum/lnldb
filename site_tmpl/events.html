@@ -8,7 +8,7 @@
 {% block content %}
 <div class="row">
     <div class="col-md-12">
-        <div class="pull-right">
+        <div class="float-end">
             {% if calurl %}
                 <a href="{{calurl}}" class="btn btn-primary">Calendar</a>
             {% endif %}
@@ -21,15 +21,15 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <div class="panel-group" id="accordion">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse">
-                        Filter <i class="glyphicon glyphicon-search"></i>
-                    </a>
+        <div class="accordion mb-2" id="filter-accordion">
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#filter-collapse">
+                        <i class="fas fa-search me-2"></i> Filter
+                    </button>
                 </div>
-                <div id="collapse" class="panel-collapse collapse">
-                    <div class="panel-body">
+                <div id="filter-collapse" class="accordion-collapse collapse">
+                    <div class="accordion-body">
                         {% include "js_datepick.tmpl" %}
                         <script type="text/javascript">
                         $(document).ready(function () {
@@ -50,16 +50,16 @@
                         {% if start and end %}
                         <hr>
                         <ul class="nav nav-pills">
-                            <li class="disabled"><a href="#">View This Range as</a></li>
-                            <li><a href="{% url "events:incoming" start end %}{% append_to_get page=1 %}">Incoming</a></li>
-                            <li><a href="{% url "events:upcoming" start end %}{% append_to_get page=1 %}">Upcoming</a></li>
-                            <li><a href="{% url "events:open" start end %}{% append_to_get page=1 %}">Open</a></li>
-                            <li><a href="{% url "events:unreviewed" start end %}{% append_to_get page=1 %}">Unreviewed</a></li>
-                            <li><a href="{% url "events:unbilled" start end %}{% append_to_get page=1 %}">Unbilled</a></li>
-                            <li><a href="{% url "events:unpaid" start end %}{% append_to_get page=1 %}">Billed/UnPaid</a></li>
-                            <li><a href="{% url "events:paid" start end %}{% append_to_get page=1 %}">Paid</a></li>
-                            <li><a href="{% url "events:closed" start end %}{% append_to_get page=1 %}">Closed</a></li>
-                            <li><a href="{% url "events:all" start end %}{% append_to_get page=1 %}">All</a></li>
+                            <li class="nav-item disabled"><a class="nav-link disabled" href="#">View This Range as</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url "events:incoming" start end %}{% append_to_get page=1 %}">Incoming</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url "events:upcoming" start end %}{% append_to_get page=1 %}">Upcoming</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url "events:open" start end %}{% append_to_get page=1 %}">Open</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url "events:unreviewed" start end %}{% append_to_get page=1 %}">Unreviewed</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url "events:unbilled" start end %}{% append_to_get page=1 %}">Unbilled</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url "events:unpaid" start end %}{% append_to_get page=1 %}">Billed/UnPaid</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url "events:paid" start end %}{% append_to_get page=1 %}">Paid</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url "events:closed" start end %}{% append_to_get page=1 %}">Closed</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url "events:all" start end %}{% append_to_get page=1 %}">All</a></li>
                         </ul>
                         {% endif %}
                         {% if takes_param_projection %}
@@ -90,15 +90,15 @@
                         {% if field.sortable %}
                         <div class="btn-group flexfix" role="group"
                              aria-label="{{ field.verbose_name | title }} Sorts">
-                            <a role="button" class="btn btn-default btn-xs"
+                            <a role="button" class="btn btn-default btn-sm btn-sort"
                                href="?sort={{ field.name }}"
                                aria-label="Sort {{ field.verbose_name | title }} Ascending">
-                                <span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+                               <i class="fas fa-chevron-up"></i>
                             </a>
-                            <a role="button" class="btn btn-default btn-xs"
+                            <a role="button" class="btn btn-default btn-sm btn-sort"
                                href="?sort=-{{ field.name }}"
                                aria-label="Sort {{ field.verbose_name | title }} Descending">
-                                <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+                               <i class="fas fa-chevron-down"></i>
                             </a>
                         </div>
                     {% endif %}
@@ -244,26 +244,26 @@
     </div>
 </div>
 <div class="row">
-    <ul class="pager">
+    <ul class="pagination justify-content-center">
         {% if events.has_previous %}
-            <li class="previous">
-            <a href="{% append_to_get page=events.previous_page_number %}">&larr; Newer</a>
+            <li class="previous page-item">
+            <a href="{% append_to_get page=events.previous_page_number %}" class="page-link">&larr; Newer</a>
         {% else %}
-            <li class="previous disabled">
-            <a href="#" >&larr; Newer</a>
+            <li class="previous disabled page-item">
+            <a href="#" class="page-link">&larr; Newer</a>
         {% endif %}
         
         </li>
-        <li class="current">
-            <a href="#">Page {{ events.number }} of {{ events.paginator.num_pages }}.</a>
+        <li class="current page-item disabled">
+            <div class="page-link disabled text-primary"> Page {{ events.number }} of {{ events.paginator.num_pages }}.</div>
         </li>
         
         {% if events.has_next %}
-            <li class="next">
-            <a href="{% append_to_get page=events.next_page_number %}">Older &rarr;</a>
+            <li class="next page-item">
+            <a href="{% append_to_get page=events.next_page_number %}" class="page-link">Older &rarr;</a>
         {% else %}
-            <li class="next disabled">
-            <a href="#">Older &rarr;</a>
+            <li class="next disabled page-item">
+            <a href="#" class="page-link">Older &rarr;</a>
         {% endif %}
         </li>
     </ul>
