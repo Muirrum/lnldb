@@ -23,7 +23,7 @@
                     <li><a class="dropdown-item" href="{% url "events:findchief" %}">Needs a Chief</a></li>
                     {% endpermission %} {% permission request.user has 'events.view_event' %}
                     <li><a class="dropdown-item" href="{% url "events:upcoming" %}">Upcoming Events</a></li>
-                    <li><a class="dropdown-item" ref="{% url "events:open" %}">Open Events</a></li>
+                    <li><a class="dropdown-item" href="{% url "events:open" %}">Open Events</a></li>
                     <li><a class="dropdown-item" href="{% url "events:closed" %}">Closed Events</a></li>
                     <li><a class="dropdown-item" href="{% url "events:all" %}">All Events</a></li>
                     {% endpermission %} {% permission request.user has 'events.view_event_billing' %}
