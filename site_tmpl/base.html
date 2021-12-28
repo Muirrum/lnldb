@@ -148,7 +148,7 @@
         {% if messages %}
             {% for message in messages %}
             <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-                <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 <strong>{{ message|safe }}</strong>
             </div>
             {% endfor %}
@@ -157,13 +157,13 @@
         {% if request.user.is_authenticated and not request.user.is_complete %}
             {% if request.user.is_lnl and not request.user.onboarded %}
                 <div class="alert alert-warning">
-                    <button type="button" class="btn close" data-bs-dismiss="alert">&times;</button>
+                    <button type="button" class="btn close" data-bs-dismiss="alert"></button>
                     <strong>It seems you haven't finished your profile.
                         <a href="{% url 'pages:onboarding-wizard' %}">Get Started.</a></strong>
                 </div>
             {% else %}
                 <div class="alert alert-warning">
-                    <button type="button" class="btn close" data-bs-dismiss="alert">&times;</button>
+                    <button type="button" class="btn close" data-bs-dismiss="alert"></button>
                     <strong>It seems you haven't finished your profile.
                         <a href="{% url 'accounts:update' request.user.pk %}">Enter contact info.</a></strong>
                 </div>
