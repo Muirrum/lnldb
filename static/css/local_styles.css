@@ -451,3 +451,16 @@ div.event-list {
     border-top: none;
     font-size: 2.5rem;
 }
+
+
+/* form style */
+
+form.form-inline .row {
+    margin-left: 0;
+    margin-bottom: 0.25rem !important;
+}
+
+.row .form-check-input {
+    padding: calc(var(--bs-gutter-x) * .35);
+    margin-top: inherit;
+}
