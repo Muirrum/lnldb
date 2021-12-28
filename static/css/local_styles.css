@@ -424,6 +424,14 @@ div.event-list {
     position: absolute !important;
 }
 
+.alert>* {
+    vertical-align: top;
+}
+
+.alert>:first-child {
+    margin-right: 0.5rem;
+}
+
 
 /* custom calendar icon with configurable date & month */
 
