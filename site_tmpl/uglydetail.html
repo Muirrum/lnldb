@@ -323,6 +323,16 @@
                                 <td> {{ event.test_event }} </td>
                             </tr>
                         {% endif %}
+                        {% if event.max_crew %}
+                            <tr>
+                                <th>Maximum Crew Limit</th>
+                                <td>{{ event.max_crew }}</td>
+                            </tr>
+                            <tr>
+                                <th>Current Crew Count</th>
+                                <td>{{ event.crew_count }}</td>
+                            </tr>
+                        {% endif %}
                         {% permission request.user has 'events.event_view_sensitive' of event %}
                             <tr>
                                 <th>Internal Notes</th>
@@ -354,16 +364,6 @@
                             <th>End</th>
                             <td>{{event.datetime_end}}</td>
                         </tr>
-                        {% if event.max_crew %}
-                            <tr>
-                                <th>Maximum Crew Limit</th>
-                                <td>{{ event.max_crew }}</td>
-                            </tr>
-                            <tr>
-                                <th>Current Crew Count</th>
-                                <td>{{ event.crew_count }}</td>
-                            </tr>
-                        {% endif %}
                         {% comment %}
                         <hr>
                         <a class="btn btn-lg btn-info float-end" href="{% url "events:add-crew" event.id %}">Modify</a>
