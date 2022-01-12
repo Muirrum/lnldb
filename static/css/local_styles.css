@@ -409,6 +409,16 @@ div.event-list {
     background-color: rgba(0, 0, 0, .03)
 }
 
+.card .table th,
+.card .table td {
+    padding-left: 1rem;
+}
+
+.card li.list-group-item {
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+
 
 /* Bootstrap calls it alert-danger, but django messages calls it alert-error.
    bootstrap-admin.css defines both, but most pages don't use that file, they use bootstrap.min.css

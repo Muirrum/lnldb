@@ -182,9 +182,12 @@
                 <li class="nav-item" role="presentation"><a href="#history" class="nav-link" data-toggle="tab">History</a></li>
             </ul>
 
-            <div class="tab-content">
-                <div id="home" class="tab-pane active">
-                    <table class="table">
+            <div class="container-fluid">
+                <div id="home" class="card">
+                    <div class="card-header py-3">
+                        <h3 class="card-title">Event Details</h3>
+                    </div>
+                    <table class="table mb-0">
                         <tr>
                             <th>Posted Description</th>
                             <td>{{ event.description|markdown }}</td>
@@ -342,10 +345,13 @@
                             </tr>
                         {% endpermission %}
                     </table>
-
                 </div>
-                <div id="schedule" class="tab-pane">
-                    <table class="table">
+                
+                <div id="schedule" class="card">
+                    <div class="card-header py-3">
+                        <h3 class="card-title">Schedule</h3>
+                    </div>
+                    <table class="table mb-0">
                         {% for cc in event.ccinstances.all|dictsort:"setup_start" %}
                         <tr>
                             <th>Setup For {% if cc.service %}{{ cc.service }}{% else %}{{ cc.category }}{% endif %}</th>
@@ -376,14 +382,15 @@
                         {% endcomment %}
                     </table>
                 </div>
-                <div id="services" class="tab-pane">
-                    {% if not event.closed %}
+                <div id="services" class="card">
+                    <div class="card-header py-3 d-flex align-items-center">
+                        <h3 class="card-title">Services</h3>
+                        {% if not event.closed %}
                         {% permission request.user has 'events.adjust_event_charges' of event %}
-                            <div class="float-end">
-                                <a class="btn btn-lg btn-info" href="{% url "events:extras" event.id %}">Modify Extras</a>
-                            </div>
+                            <a class="btn btn-info ms-auto" href="{% url "events:extras" event.id %}">Modify Extras</a>
                         {% endpermission %}
                     {% endif %}
+                    </div>
                     {% if event.lighting %}
                         <h2>Lighting Services ({{ event.lighting }})</h2>
                         <h3>Requirements:</h3>
@@ -454,9 +461,11 @@
                     {% endif %}
                     
                     {% if categorized_services_and_extras %}
+                    <ul class="list-group list-group-flush">
                         {% for category_name, services_and_extras in categorized_services_and_extras.items %}
+                        <li class="list-group-item">
                             <h3>{{ category_name }}</h3>
-                            <table class="table table-striped">
+                            <table class="table">
                                 <thead>
                                     <tr>
                                         <th>Service</th>
@@ -484,24 +493,28 @@
                                 {% endfor %}
                                 </ul>
                             {% endif %}
+                            </li>
                         {% endfor %}
                     {% endif %}
                     
                 </div>
-                <div id="crew" class="tab-pane">
-                    {% if not event.closed %}
+                <div id="crew" class="card">
+                    <div class="card-header py-3 d-flex align-items-center">
+                        <h3 class="card-title">Crew Chief(s)</h3>
+                        {% if not event.closed %}
                         {% permission request.user has 'events.edit_event_hours' of event %}
-                            <a class="btn btn-lg btn-info float-end" href="{% url "events:chiefs" event.id %}">Modify</a>
+                            <a class="btn btn-info ms-auto" href="{% url "events:chiefs" event.id %}">Modify</a>
                         {% endpermission %}
                     {% endif %}
-                    <h2> Crew Chief(s) </h2>
-                    <table class="table">
+                    </div>
+                    <table class="table mb-0">
                         <tr>
                             <th>Name</th>
                             <th>Setup Location</th>
                             <th>Setup Time</th>
                             <th>Category</th>
                         </tr>
+                        {% if event.ccinstances.all %}
                         {% for cc in event.ccinstances.all %}
                         <tr>
                             <td>
@@ -517,18 +530,23 @@
                                 {{ cc.category }}
                             </td>
                         {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="ps-3">(No Crew Chief(s) assigned)</td>
+                            </tr>
+                        {% endif %}
                     </table>
                 </div>
                 {% permission request.user has 'events.view_event_reports' of event %}
-                <div id="reports" class="tab-pane">
-                    {% if not event.closed %}
+                <div id="reports" class="card">
+                    <div class="card-header py-3 d-flex align-items-center">
+                        <h3 class="card-title">Reports</h3>
+                        {% if not event.closed %}
                         {% permission request.user has 'events.add_event_report' of event %}
-                            <div class="float-end">
-                                <a class="btn btn-primary btn-lg" href="{% url "events:reports:new" event.id%}">New</a>
-                            </div>
+                            <a class="btn btn-primary ms-auto" href="{% url "events:reports:new" event.id%}">New</a>
                         {% endpermission %}
                     {% endif %}
-                    <h2>Reports</h2>
+                    </div>
                     {% for report in event.ccreport_set.all %}
                         <h4>Report by {{report.crew_chief }}</h4> 
                         <em class="text-muted float-end">
@@ -552,7 +570,7 @@
                         </blockquote> 
                         
                     {% empty %}
-                        <h3>No Reports Submitted </h3>
+                        <h5 class="p-3">(No reports submitted)</h5>
                     {% endfor %}
                     {% if event.crew_needing_reports %}
                         <h4> Crew Chiefs Needing Reports </h4>
@@ -568,18 +586,17 @@
                         {% endfor %}
                         </ul>
                     {% endif %}
-                    </div>
-                <div id="hours" class="tab-pane">
-                    {% if not event.closed %}
+                </div>
+                <div id="hours" class="card">
+                    <div class="card-header py-3 d-flex align-items-center">
+                        <h3 class="card-title">Hours</h3>
+                        {% if not event.closed %}
                         {% permission request.user has 'events.edit_event_hours' of event %}
-                            <div class="float-end">
-                                <a class="btn btn-primary btn-lg" href="{% url 'events:add-bulk-crew' event.id %}">Edit</a>
-                            </div>
+                            <a class="btn btn-primary ms-auto" href="{% url 'events:add-bulk-crew' event.id %}">Edit</a>
                         {% endpermission %}
                     {% endif %}
-                    <h2> Hours </h2>
-
-                    <table class="table">
+                    </div>
+                    <table class="table mb-0">
                         <thead>
                         <tr>
                             <th>Member</th>
@@ -603,23 +620,25 @@
                             </tr>
                         {% endfor %}
                         {% else %}
-                        <tr><td colspan="3">(No crew have submitted hours)</td></tr>
+                        <tr><td class="px-3" colspan="3">(No crew have submitted hours)</td></tr>
                         {% endif %}
                     </table>
                 </div>
                 {% endpermission %}
                 {% permission request.user has 'events.view_event_billing' of event %}
-                <div id="billing" class="tab-pane">
-                    {% if not event.closed %}
+                <div id="billing" class="card">
+                    <div class="card-header py-3 d-flex align-items-center">
+                        <h3 class="card-title">Billing</h3>
+                        {% if not event.closed %}
                         {% permission request.user has 'events.adjust_event_charges' of event %}
-                            <div class="float-end btn-group">
-                                <a class="btn btn-lg btn-primary" href="{% url "events:extras" event.id %}">Modify Extras</a>
-                                <a class="btn btn-lg btn-info" href="{% url "events:oneoffs" event.id %}">Add OneOff
+                            <div class="btn-group ms-auto">
+                                <a class="btn btn-primary" href="{% url "events:extras" event.id %}">Modify Extras</a>
+                                <a class="btn btn-info" href="{% url "events:oneoffs" event.id %}">Add OneOff
                                     Charges</a>
                             </div>
                         {% endpermission %}
                     {% endif %}
-                    <h2>Price Breakdown</h2>
+                    </div>
                     {% if event.worktag %}
                         <h3>Charge from {{ event.worktag }}</h3>
                     {% endif %}
@@ -841,16 +860,16 @@
                     {% endpermission %}
                 </div>
                 {% endpermission %}
-                <div id="files" class="tab-pane">
-                    {% if not event.closed %}
-                        {% permission request.user has 'events.event_attachments' of event %}
-                            <div class="float-end">
-                                <a class="btn btn-warning" href="{% url "events:files" event.id %}">Add/Edit</a>
-                            </div>
-                        {% endpermission %}
-                    {% endif %}
-                    <h2> Files </h2> 
-                    <table class="table">
+                <div id="files" class="card">
+                    <div class="card-header py-3 d-flex align-items-center">
+                        <h3 class="card-title">Files</h3>
+                        {% if not event.closed %}
+                            {% permission request.user has 'events.event_attachments' of event %}
+                                <a class="btn btn-warning ms-auto" href="{% url "events:files" event.id %}">Add/Edit</a>
+                            {% endpermission %}
+                        {% endif %}
+                    </div>
+                    <table class="table my-0">
                         <tr>
                             <th>Service</th>
                             <th>Notes</th>
@@ -874,13 +893,15 @@
                         
                         
                         {% empty %}
-                        <tr><td colspan="4">No files have been uploaded</td></tr>
+                        <tr><td colspan="4" class="p-3">(No files have been uploaded)</td></tr>
                         {% endfor %}
                     </table>
                 </div>
                 {% permission request.user has 'events.view_posteventsurveyresults' of event.surveys.first %}
-                <div id="survey" class="tab-pane">
-                    <h2>Survey results</h2>
+                <div id="survey" class="card">
+                    <div class="card-header py-3">
+                        <h3 class="card-title">Survey Results</h3>
+                    </div>
                     {% if survey_results %}
                         <h4>Composite results</h4>
                         <table class="table">
@@ -982,13 +1003,15 @@
                         <h4>Please use this area to explain low ratings above or to provide any other feedback you have. We value your feedback and will use it to improve our services.</h4>
                         {% for c in survey_comments %}<p>{{ c }}</p>{% empty %}Nobody answered this question.{% endfor %}
                     {% else %}
-                        Nobody has taken the survey.
+                        <div class="p-3">Nobody has taken the survey.</div>
                     {% endif %}
                 </div>
                 {% endpermission %}
-                <div id="history" class="tab-pane">
-                    <h2> History </h2>
-                    <table class="table">
+                <div id="history" class="card">
+                    <div class="card-header py-3">
+                        <h3 class="card-title">History</h3>
+                    </div>
+                    <table class="table my-0">
                         <tr>
                             <th>Date</th>
                             <th>User</th>
