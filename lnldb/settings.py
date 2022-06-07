@@ -52,7 +52,8 @@ SNIPE_GENERAL_USER = env.str('SNIPE_USERNAME', "")
 SNIPE_GENERAL_PASS = env.str('SNIPE_PASSWORD', "")
 
 RT_TOKEN = env.str('RT_API_KEY', '')
-RT_CRYPTO_KEY = env.str('RT_CRYPTO_KEY', '')
+
+CRYPTO_KEY = env.str('CRYPTO_KEY', '')
 
 TESTING = sys.argv[1:2] == ['test']
 
@@ -98,6 +99,9 @@ SECRET_KEY = env.str("SECRET_KEY", "I am insecure.")
 
 SLACK_TOKEN = env.str('SLACK_BOT_TOKEN', None)
 
+# If True, the bot will automatically attempt to join new channels when they are created in Slack
+SLACK_AUTO_JOIN = env.bool('SLACK_AUTO_JOIN', default=False)
+
 SLACK_TARGET_GENERAL = env.str('SLACK_TARGET_GENERAL', None)
 SLACK_TARGET_EXEC = env.str('SLACK_TARGET_EXEC', None)
 SLACK_TARGET_ACTIVE = env.str('SLACK_TARGET_ACTIVE', None)
@@ -127,6 +131,8 @@ SAML2_AUTH = {
     'NAME_ID_FORMAT': 'urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified',
     'USE_JWT': False,
 }
+
+LOGIN_BACKGROUND = env.str('LOGIN_BACKGROUND', None)
 
 # Two-Factor Verification
 TFV_ATTEMPTS = env.str('TFV_ATTEMPTS', 3)

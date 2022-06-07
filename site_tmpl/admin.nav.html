@@ -82,8 +82,6 @@
                     <li><a class="dropdown-item" href="{% url "slack:moderate" %}">Moderate Slack</a></li>
                     {% endpermission %}
                     <li><hr class="dropdown-divider"></li>
-                    {% endpermission %} {% permission request.user has 'events.view_attendance_records' %}
-                    <li><a class="dropdown-item" href="{% url "events:crew-logs" %}">Crew Logs</a></li>
                     {% endpermission %}
                     <li><a class="dropdown-item" href="{% url "members:training:list" %}">Training</a></li>
                     {% permission request.user has 'accounts.change_membership' %}
@@ -115,9 +113,6 @@
                     {% endpermission %}
                     <li><a class="dropdown-item" href="{% url 'inventory:snipe_checkout' %}">Inventory checkout</a></li>
                     <li><a class="dropdown-item" href="{% url 'inventory:snipe_checkin' %}">Inventory checkin</a></li>
-                    {% permission request.user has 'inventory.view_access_logs' %}
-                    <li><a class="dropdown-item" href="{% url 'inventory:view_logs' %}">Access Logs</a></li>
-                    {% endpermission %}
                     <li><a class="dropdown-item" href="{% url 'inventory:snipe_password' %}">View inventory - Snipe</a></li>
                     <li><a class="dropdown-item" target="_blank" href="https://lnl-rt.wpi.edu/rt/">Repairs ticket system - RT <i class="glyphicon glyphicon-new-window"></i></a></li>
                 </ul>

@@ -11,6 +11,7 @@ from rest_framework.test import APIClient
 from rest_framework.authtoken.models import Token
 from . import models
 from .templatetags import path_safe
+from accounts.models import Officer
 from events.tests.generators import UserFactory, Event2019Factory, CCInstanceFactory
 from events.models import OfficeHour, Building, Location, CrewAttendanceRecord
 from data.models import Notification, Extension, ResizedRedirect
@@ -30,54 +31,70 @@ class APIViewTest(ViewTestCase):
         self.assertEqual(path_safe.path_safe(string), output)
 
     def test_token_endpoint(self):
-        # Check that page loads ok
-        self.assertOk(self.client.get(reverse("api:request-token")))
+        with self.settings(CRYPTO_KEY='s4drGBoGJIrN8-n_1_n_ES8dSD2sLByheksYvaa9tkI='):
+            app = Extension.objects.create(name="Test App", developer="Lens and Lights",
+                                           description="An app used for testing", api_key="ABCDEFG", enabled=True)
+            # An example of a Client ID (base64 encoded)
+            client_id = 'gAAAAABh19SRlJMu7Wz-QGREpHAVT0ctusPHsPR-CNa-Jn0YToZlL4mJ3S488fFh-U4q0vI1iZ4hwz1t-SDMYopvEmRo7v0gtg=='
 
-        # If user does not have phone number and carrier listed, they will need to fill out the form
-        self.assertOk(self.client.post(reverse("api:request-token")))
+            # Should redirect to the scopes authorization page
+            self.assertRedirects(self.client.get(reverse("api:request-token", args=[client_id])),
+                                 reverse("accounts:scope-request"))
 
-        self.assertFalse(models.TokenRequest.objects.filter(user=self.user).exists())
+            # Check that page loads ok if user has granted access to the application
+            self.assertOk(self.client.get(reverse("api:request-token", args=[client_id]),
+                                          HTTP_REFERER="https://lnl.wpi.edu" + reverse("accounts:scope-request")))
 
-        valid_data = {
-            "phone": 1234567890,
-            "carrier": "vtext.com",
-            "save": "Continue"
-        }
+            self.assertOk(self.client.get(reverse("api:request-token", args=[client_id])))
 
-        self.assertOk(self.client.post(reverse("api:request-token"), valid_data))
+            # If user does not have phone number and carrier listed, they will need to fill out the form
+            self.assertOk(self.client.post(reverse("api:request-token", args=[client_id])))
 
-        self.user.refresh_from_db()
-        self.assertEqual(self.user.phone, '1234567890')
+            self.assertFalse(models.TokenRequest.objects.filter(user=self.user).exists())
 
-        # User must confirm that information is accurate (users who have already provided this information start here)
-        resp = self.client.post(reverse("api:request-token"), valid_data)
-        self.assertContains(resp, "Check your messages")
+            valid_data = {
+                "phone": 1234567890,
+                "carrier": "vtext.com",
+                "save": "Continue"
+            }
 
-        self.assertTrue(models.TokenRequest.objects.filter(user=self.user).exists())
+            self.assertOk(self.client.post(reverse("api:request-token", args=[client_id]), valid_data))
 
-        # If code expires on the user, check that they can request a new one (will replace exisiting code)
-        resp = self.client.post(reverse("api:request-token"), valid_data)
-        self.assertContains(resp, "Check your messages")
+            self.user.refresh_from_db()
+            self.assertEqual(self.user.phone, '1234567890')
+
+            # User must confirm that information is accurate (users who have already provided this start here)
+            resp = self.client.post(reverse("api:request-token", args=[client_id]), valid_data)
+            self.assertContains(resp, "Check your messages")
+
+            self.assertTrue(models.TokenRequest.objects.filter(user=self.user).exists())
+
+            # If code expires on the user, check that they can request a new one (will replace existing code)
+            resp = self.client.post(reverse("api:request-token", args=[client_id]), valid_data)
+            self.assertContains(resp, "Check your messages")
 
         # Ensure GET requests are not allowed when obtaining the token with verification code
         self.assertOk(self.client.get(reverse("api:fetch-token")), 405)
 
         # If information is missing we should get a 400 error
-        self.assertOk(self.client.post(reverse("api:fetch-token"), {'code': 12345}), 400)
+        self.assertOk(self.client.post(reverse("api:fetch-token"), {'code': 654321}), 400)
 
         # Application should send the following to obtain the token
         token_request = models.TokenRequest.objects.get(user=self.user)
         data = {
             "APIKey": "ABCDEFG",
-            "code": "12345",
+            "code": "654321",
             "username": "testuser"
         }
 
-        # If user or application with the given information does not exist, we should get 404
+        # If user or application does not exist, or the application is disabled, we should get 404
+        app.enabled = False
+        app.save()
+
         self.assertOk(self.client.post(reverse("api:fetch-token"), data), 404)
 
-        app = Extension.objects.create(name="Test App", developer="Lens and Lights",
-                                       description="An app used for testing", api_key="ABCDEFG", enabled=True)
+        app.enabled = True
+        app.save()
 
         # If application exists, but user has not allowed full permissions, we should get 403
         self.assertOk(self.client.post(reverse("api:fetch-token"), data), 403)
@@ -112,7 +129,7 @@ class APIViewTest(ViewTestCase):
         self.assertOk(self.client.get("/api/v1/officers"), 404)
 
         # Test that we see all officers and not normal user (will require user to have title)
-        self.user.title = "President"
+        officer_info = Officer.objects.create(user=self.user, title="President")
         self.user.first_name = "Test"
         self.user.last_name = "User"
         self.user.save()
@@ -127,8 +144,7 @@ class APIViewTest(ViewTestCase):
         self.assertEqual(self.client.get("/api/v1/officers").content.decode('utf-8'),
                          '[{"title":"President","name":"Test User"}]')
 
-        user2.title = "Vice President"
-        user2.save()
+        Officer.objects.create(user=user2, title="Vice President")
 
         self.assertEqual(self.client.get("/api/v1/officers").content.decode('utf-8'),
                          '[{"title":"President","name":"Test User"},{"title":"Vice President","name":"Other Officer"}]')
@@ -149,10 +165,9 @@ class APIViewTest(ViewTestCase):
                          '[{"title":"President","name":"Test User","class_year":2020}]')
 
     def test_hour_viewset(self):
-        self.user.title = "President"
-        self.user.save()
-
-        user2 = UserFactory.create(password="123", title="Vice President")
+        user2 = UserFactory.create(password="123")
+        Officer.objects.create(user=self.user, title="President")
+        Officer.objects.create(user=user2, title="Vice President")
 
         # Test that no content returns a 204
         self.assertOk(self.client.get("/api/v1/office-hours"), 204)

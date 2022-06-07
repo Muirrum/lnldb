@@ -40,7 +40,6 @@ from pdfs.views import (generate_pdfs_standalone, generate_event_bill_pdf_standa
                         generate_multibill_pdf_standalone)
 from ..cal import generate_ics
 
-
 @login_required
 @permission_required('events.approve_event', raise_exception=True)
 def approval(request, id):
@@ -436,7 +435,7 @@ def hours_bulk_admin(request, id):
     context['event'] = event
     context['oldevent'] = isinstance(event, Event)
 
-    mk_hours_formset = inlineformset_factory(BaseEvent, Hours, extra=15, exclude=[])
+    mk_hours_formset = inlineformset_factory(BaseEvent, Hours, extra=3, exclude=[])
     mk_hours_formset.form = curry_class(MKHoursForm, event=event)
 
     if request.method == 'POST':
@@ -735,7 +734,7 @@ def assigncc(request, id):
     context['event'] = event
     context['oldevent'] = isinstance(event, Event)
 
-    cc_formset = inlineformset_factory(Event, EventCCInstance, extra=5, exclude=[])
+    cc_formset = inlineformset_factory(Event, EventCCInstance, extra=3, exclude=[])
     cc_formset.form = curry_class(CCIForm, event=event)
 
     if request.method == 'POST':
@@ -782,7 +781,9 @@ def assignattach(request, id):
                     to.append(settings.EMAIL_TARGET_HP)
                 for ccinstance in event.ccinstances.all():
                     if ccinstance.crew_chief.email:
-                        to.append(ccinstance.crew_chief.email)
+                        prefs, created = UserPreferences.objects.get_or_create(user=ccinstance.crew_chief)
+                        if not prefs.ignore_user_action or ccinstance.crew_chief != request.user:
+                            to.append(ccinstance.crew_chief.email)
                 subject = "Event Attachments"
                 email_body = "Attachments for the following event were modified by %s." % request.user.get_full_name()
                 email = EventEmailGenerator(event=event, subject=subject, to_emails=to, body=email_body)
@@ -929,6 +930,7 @@ def viewevent(request, id):
     context['history'] = Version.objects.get_for_object(event)
     if isinstance(event, Event2019):
         context['crew_count'] = event.crew_attendance.filter(active=True).values('user').count()
+ 
     if event.serviceinstance_set.exists():
         context['categorized_services_and_extras'] = {}
         for category in Category.objects.all():
