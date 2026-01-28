@@ -51,7 +51,7 @@ class User(AbstractUser):
                         null=True, blank=True, default='')
     addr = TextField(null=True, blank=True, verbose_name="Address / Office Location")
     mdc = CharField(max_length=32, null=True, blank=True, verbose_name="MDC")
-    nickname = CharField(max_length=32, null=True, blank=True, verbose_name="Nickname")
+    nickname = CharField(max_length=4096, null=True, blank=True, verbose_name="Nickname")
     student_id = PositiveIntegerField(null=True, blank=True, verbose_name="Student ID")
     class_year = PositiveIntegerField(null=True, blank=True, validators=[MinValueValidator(1962), MaxValueValidator(timezone.now().year + 6)])
     locked = BooleanField(default=False)
